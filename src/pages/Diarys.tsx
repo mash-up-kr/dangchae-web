@@ -1,5 +1,5 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/react';
+import React from 'react';
+
 const Diarys = () => {
   return <div />;
 };
