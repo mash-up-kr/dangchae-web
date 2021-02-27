@@ -35,7 +35,7 @@ const App = () => {
             <Route exact path="/signup" component={Pages.Signup} />
             <Route exact path="/signin" component={Pages.Signin} />
             <Route exact path="/new-diary" component={Pages.NewDiary} />
-            <Route exact path="/diarys" component={Pages.Diarys} />
+            <Route exact path="/diaries" component={Pages.Diarys} />
             <Route exact path="/diarys/:diaryId" component={Pages.Diary} />
             <Route
               exact
