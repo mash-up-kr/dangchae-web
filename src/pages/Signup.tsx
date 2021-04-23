@@ -73,7 +73,7 @@ const Signup = () => {
 		try {
 			const resp = await signupAPI(fileRef.current.files[0], nickname, oauth);
 			localStorage.setItem('token', resp.token);
-			history.push('/');
+			history.go(0);
 		} catch (err) {
 			console.log(`error: ${err.message}`);
 		}

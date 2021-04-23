@@ -77,7 +77,7 @@ const Signin = () => {
 				try {
 					const { token } = await signinAPI(oauth);
 					localStorage.setItem('token', token); //history.push('/') 얘는 왜 안먹는겨?
-					history.push('/');
+					history.go(0);
 				} catch (err) {
 					history.push('/sign-up', { ...oauth });
 				}
