@@ -4,7 +4,7 @@ import React from 'react';
 
 import Footer from 'components/Footer';
 import useValidateToken from 'hooks/useValidateToken';
-import { BrowserRouter, Route, Switch, useHistory } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import AuthRoute from 'routes/AuthRoute';
 import styled from 'styled-components';
 

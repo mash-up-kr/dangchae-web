@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
+import { signinAPI } from 'api/http';
 import AppleSigninImg from 'assets/images/AppleSigninImg.svg';
 import KakaoSigninImg from 'assets/images/KakaoSigninImg.svg';
 import NaverSigninImg from 'assets/images/NaverSigninImg.svg';
 import useKakaoAuthorization from 'hooks/useKakaoAuthorization';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 const SigninWrapper = styled.div`
@@ -44,8 +46,44 @@ const DescriptionText = styled.p`
 	margin-bottom: 100px;
 `;
 
+interface IOauth {
+	code: string;
+	token: string;
+	vendor: string;
+}
+
 const Signin = () => {
-	const { openKaKaoAuthorization } = useKakaoAuthorization();
+	const history = useHistory();
+	const [oauth, setOauth] = useState<IOauth>({
+		code: '',
+		token: '',
+		vendor: '',
+	});
+	const { openKaKaoAuthorization, kakaoToken } = useKakaoAuthorization();
+
+	useEffect(() => {
+		if (kakaoToken) {
+			setOauth({
+				code: '',
+				token: kakaoToken,
+				vendor: 'KAKAO',
+			});
+		}
+	}, [kakaoToken]);
+
+	useEffect(() => {
+		if (oauth.token && oauth.vendor) {
+			(async () => {
+				try {
+					const { token } = await signinAPI(oauth);
+					localStorage.setItem('token', token); //history.push('/') 얘는 왜 안먹는겨?
+					history.push('/');
+				} catch (err) {
+					history.push('/sign-up', { ...oauth });
+				}
+			})();
+		}
+	}, [oauth]);
 
 	return (
 		<SigninWrapper>

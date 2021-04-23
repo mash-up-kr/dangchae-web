@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 
 import { signupAPI } from 'api/http';
 import UploadImgIcon from 'assets/images/UploadImgIcon.svg';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 const SignupWrapper = styled.div`
@@ -49,18 +49,34 @@ const NicknameInput = styled.input`
 	width: 100%;
 `;
 
-interface SignupProps {
-	oauth: any;
-}
+const SubmitButton = styled.button`
+	width: 289px;
+	height: 40px;
+	border: 1px solid #000000;
+	box-sizing: border-box;
+	border-radius: 65px;
+	background-color: #f8f7ed;
+	margin-top: 50px;
+	color: #333333;
+	font-size: 16px;
+	line-height: 19px;
+`;
 
-const Signup = ({ oauth }: SignupProps) => {
+const Signup = () => {
 	const [nickname, setNickname] = useState('');
 	const fileRef = useRef<any>();
 	const history = useHistory();
+	const { state } = useLocation();
 
 	const onSubmit = async () => {
-		await signupAPI(fileRef.current.files[0], nickname, oauth);
-		history.push('/');
+		const oauth = state;
+		try {
+			const resp = await signupAPI(fileRef.current.files[0], nickname, oauth);
+			localStorage.setItem('token', resp.token);
+			history.push('/');
+		} catch (err) {
+			console.log(`error: ${err.message}`);
+		}
 	};
 
 	return (
@@ -81,7 +97,7 @@ const Signup = ({ oauth }: SignupProps) => {
 				}}
 				placeholder="닉네임을 입력해주세요"
 			/>
-			<button onClick={onSubmit}>전송</button>
+			<SubmitButton onClick={onSubmit}>전송</SubmitButton>
 		</SignupWrapper>
 	);
 };
