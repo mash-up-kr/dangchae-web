@@ -5,6 +5,8 @@ import AppleSigninImg from 'assets/images/AppleSigninImg.svg';
 import KakaoSigninImg from 'assets/images/KakaoSigninImg.svg';
 import NaverSigninImg from 'assets/images/NaverSigninImg.svg';
 import useKakaoAuthorization from 'hooks/useKakaoAuthorization';
+import { login } from 'modules/auth';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -54,6 +56,7 @@ interface IOauth {
 
 const Signin = () => {
 	const history = useHistory();
+	const dispatch = useDispatch();
 	const [oauth, setOauth] = useState<IOauth>({
 		code: '',
 		token: '',
@@ -75,9 +78,9 @@ const Signin = () => {
 		if (oauth.token && oauth.vendor) {
 			(async () => {
 				try {
-					const { token } = await signinAPI(oauth);
-					localStorage.setItem('token', token); //history.push('/') 얘는 왜 안먹는겨?
-					history.go(0);
+					const resp = await signinAPI(oauth);
+					dispatch(login(resp));
+					history.push('/');
 				} catch (err) {
 					history.push('/sign-up', { ...oauth });
 				}

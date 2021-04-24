@@ -1,12 +1,18 @@
 import React from 'react';
 
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import { createStore } from 'redux';
 import * as serviceWorker from 'serviceWorker';
 import { createGlobalStyle } from 'styled-components';
 
+import rootReducer from '../src/modules';
+
 /* Internal dependencies */
 import App from './routes';
+
+const store = createStore(rootReducer);
 
 const GlobalStyle = createGlobalStyle`
     * {
@@ -34,7 +40,9 @@ ReactDOM.render(
 	<React.StrictMode>
 		<GlobalStyle />
 		<BrowserRouter>
-			<App />
+			<Provider store={store}>
+				<App />
+			</Provider>
 		</BrowserRouter>
 	</React.StrictMode>,
 	document.getElementById('root')

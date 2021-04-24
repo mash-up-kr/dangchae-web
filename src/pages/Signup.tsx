@@ -2,6 +2,8 @@ import React, { useRef, useState } from 'react';
 
 import { signupAPI } from 'api/http';
 import UploadImgIcon from 'assets/images/UploadImgIcon.svg';
+import { login } from 'modules/auth';
+import { useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -62,18 +64,25 @@ const SubmitButton = styled.button`
 	line-height: 19px;
 `;
 
+interface ILocationState {
+	code: string;
+	vendor: string;
+	token: string;
+}
+
 const Signup = () => {
 	const [nickname, setNickname] = useState('');
 	const fileRef = useRef<any>();
 	const history = useHistory();
-	const { state } = useLocation();
+	const dispatch = useDispatch();
+	const { state } = useLocation<ILocationState>();
 
 	const onSubmit = async () => {
 		const oauth = state;
 		try {
 			const resp = await signupAPI(fileRef.current.files[0], nickname, oauth);
-			localStorage.setItem('token', resp.token);
-			history.go(0);
+			dispatch(login(resp));
+			history.push('/');
 		} catch (err) {
 			console.log(`error: ${err.message}`);
 		}
