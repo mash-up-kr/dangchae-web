@@ -1,4 +1,5 @@
 const LOGIN = 'auth/login' as const;
+const LOGOUT = 'auth/logout' as const;
 
 interface LoginResponse {
 	nickname: string;
@@ -13,6 +14,10 @@ export const login = ({ nickname, profileURL, token, refreshToken }: LoginRespon
 	profileURL,
 	token,
 	refreshToken,
+});
+
+export const logout = () => ({
+	type: LOGOUT,
 });
 
 const initState = {
@@ -32,6 +37,14 @@ function authReducer(state = initState, action) {
 				nickname: action.nickname,
 				profileURL: action.profileURL,
 			};
+
+		case LOGOUT:
+			localStorage.removeItem('token');
+			localStorage.removeItem('refreshToken');
+			return {
+				...initState,
+			};
+
 		default:
 			return state;
 	}

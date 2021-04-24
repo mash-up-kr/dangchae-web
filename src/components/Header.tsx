@@ -1,5 +1,8 @@
 import React from 'react';
 
+import { logout } from 'modules/auth';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
 const HeaderWrapper = styled.div`
@@ -23,10 +26,17 @@ const HeaderLogout = styled.p`
 `;
 
 const Footer = () => {
+	const dispatch = useDispatch();
+	const history = useHistory();
+
+	const onLogout = () => {
+		dispatch(logout());
+		history.replace('/');
+	};
 	return (
 		<HeaderWrapper>
 			<HeaderLogo>우다다 LOGO</HeaderLogo>
-			<HeaderLogout>로그아웃</HeaderLogout>
+			<HeaderLogout onClick={onLogout}>로그아웃</HeaderLogout>
 		</HeaderWrapper>
 	);
 };
