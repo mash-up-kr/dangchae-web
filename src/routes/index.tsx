@@ -1,10 +1,8 @@
-import asyncLocalStorage from 'util/asyncLocalStorage';
-
 import React from 'react';
 
 import Footer from 'components/Footer';
 import useValidateToken from 'hooks/useValidateToken';
-import { BrowserRouter, Route, Switch, useHistory } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import AuthRoute from 'routes/AuthRoute';
 import styled from 'styled-components';
 
@@ -27,7 +25,7 @@ const AppContent = styled.div`
 `;
 
 const App = () => {
-	const { isValidated } = useValidateToken();
+	// const { isValidated } = useValidateToken();
 
 	return (
 		<AppWrapper>
@@ -35,14 +33,14 @@ const App = () => {
 				<Switch>
 					<Route exact path="/sign-in" component={Pages.Signin} />
 					<Route exact path="/sign-up" component={Pages.Signup} />
-					<AuthRoute isValidated={isValidated}>
-						<Route exact path="/" component={Pages.Diarys} />
-						<Route exact path="/new-diary" component={Pages.NewDiary} />
-						<Route exact path="/:diaryId" component={Pages.Diary} />
-						<Route exact path="/:diaryId/paper" component={Pages.Papers} />
-						<Route exact path="/:diaryId/paper/new-paper" component={Pages.NewPaper} />
-						<Route exact path="/:diaryId/paper/:paperId" component={Pages.Paper} />
-					</AuthRoute>
+					{/* <AuthRoute isValidated={isValidated}> */}
+					<Route exact path="/" component={Pages.Diarys} />
+					<Route exact path="/new-diary" component={Pages.NewDiary} />
+					<Route exact path="/:diaryId" component={Pages.Diary} />
+					<Route exact path="/:diaryId/paper" component={Pages.Papers} />
+					<Route exact path="/:diaryId/paper/new-paper" component={Pages.NewPaper} />
+					<Route exact path="/:diaryId/paper/:paperId" component={Pages.Paper} />
+					{/* </AuthRoute> */}
 				</Switch>
 			</AppContent>
 			<Footer />

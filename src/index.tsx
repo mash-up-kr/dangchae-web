@@ -11,6 +11,8 @@ import App from './routes';
 const GlobalStyle = createGlobalStyle`
     * {
 		font-family: 'Spoqa Han Sans Neo', 'Spoqa Han Sans JP', sans-serif;
+		margin: 0;
+		padding: 0;
 	}
 	html, body, #root {
 		min-width: 1200px;
