@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ReactDOM from 'react-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter } from 'react-router-dom';
 import * as serviceWorker from 'serviceWorker';
 import { createGlobalStyle } from 'styled-components';
@@ -32,11 +33,15 @@ const GlobalStyle = createGlobalStyle`
     }
 `;
 
+const queryClient = new QueryClient();
+
 ReactDOM.render(
 	<React.StrictMode>
 		<GlobalStyle />
 		<BrowserRouter>
-			<App />
+			<QueryClientProvider client={queryClient}>
+				<App />
+			</QueryClientProvider>
 		</BrowserRouter>
 	</React.StrictMode>,
 	document.getElementById('root')

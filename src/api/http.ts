@@ -32,5 +32,16 @@ export async function signupAPI(file, nickname, oauth) {
 }
 
 export async function getPaperAPI(articleId: string, diaryId: string) {
-	return await axios.get(`${SERVER_URL}/articles/${articleId}?diaryId=${diaryId}`);
+	return await axios.get<getPaperResponse>(`${SERVER_URL}/articles/${articleId}?diaryId=${diaryId}`);
 }
+
+export type getPaperResponse = {
+	articleId: number;
+	body: string;
+	date: Date;
+	diaryId: number;
+	img: string;
+	thumbImg: string;
+	title: string;
+	writerId: number;
+};

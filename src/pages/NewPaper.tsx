@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
+import { getPaperAPI } from 'api/http';
 import Header from 'components/Header';
+import { useQuery } from 'react-query';
+import { useParams } from 'react-router';
 import styled from 'styled-components';
 
 import AlignIcon from '../assets/icons/Align.svg';
@@ -9,39 +12,64 @@ import CameraIcon from '../assets/icons/Camera.svg';
 import PencilIcon from '../assets/icons/Pencil.svg';
 
 const NewPaper = () => {
+	const { diaryId, paperId } = useParams<{ diaryId: string; paperId: string }>();
+	const { data } = useQuery('page', () => getPaperAPI(diaryId, paperId).then(res => res.data));
+
+	const [title, setTitle] = useState('');
+	const [content, setContent] = useState('');
+
+	useEffect(() => {
+		if (!data) return;
+
+		setTitle(data.title);
+		setContent(data.body);
+	}, [data]);
+
 	return (
 		<>
 			<Header />
-			<TitleSection>
-				<Title>당근과채찍</Title>
-				<Date>2020.02.21 (SUN)</Date>
-			</TitleSection>
-			<ToolBarSection>
-				<ButtonGroup>
-					<SquareButton>
-						<img src={CameraIcon} />
-					</SquareButton>
-					<SquareButton>
-						<img src={BackgroundIcon} />
-					</SquareButton>
-					<SquareButton>
-						<img src={AlignIcon} />
-					</SquareButton>
-				</ButtonGroup>
-				<ButtonGroup>
-					<RectangleButton>임시저장</RectangleButton>
-					<RectangleBlackButton>
-						<img src={PencilIcon} style={{ margin: 4 }} /> 발행
-					</RectangleBlackButton>
-				</ButtonGroup>
-			</ToolBarSection>
-			<TitleInput placeholder="제목을 입력해주세요" />
-			<ContentTextArea placeholder="오늘 하루는 어땠나요?" />
+			{data && (
+				<>
+					<DiaryInfoSection>
+						<Title>{data.diaryId}</Title>
+						<Date>2020.02.21 (SUN)</Date>
+					</DiaryInfoSection>
+					<ToolBarSection>
+						<ButtonGroup>
+							<SquareButton>
+								<img src={CameraIcon} />
+							</SquareButton>
+							<SquareButton>
+								<img src={BackgroundIcon} />
+							</SquareButton>
+							<SquareButton>
+								<img src={AlignIcon} />
+							</SquareButton>
+						</ButtonGroup>
+						<ButtonGroup>
+							<RectangleButton>임시저장</RectangleButton>
+							<RectangleBlackButton>
+								<img src={PencilIcon} style={{ margin: 4 }} /> 발행
+							</RectangleBlackButton>
+						</ButtonGroup>
+					</ToolBarSection>
+					<TitleInput
+						placeholder="제목을 입력해주세요"
+						value={title}
+						onChange={e => setTitle(e.target.value)}
+					/>
+					<ContentTextArea
+						placeholder="오늘 하루는 어땠나요?"
+						value={content}
+						onChange={e => setContent(e.target.value)}
+					/>
+				</>
+			)}
 		</>
 	);
 };
 
-const TitleSection = styled.div`
+const DiaryInfoSection = styled.div`
 	display: flex;
 	width: 100%;
 	align-items: center;
