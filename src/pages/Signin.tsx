@@ -1,13 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-import { signinAPI } from 'api/http';
 import AppleSigninImg from 'assets/images/AppleSigninImg.svg';
 import KakaoSigninImg from 'assets/images/KakaoSigninImg.svg';
 import NaverSigninImg from 'assets/images/NaverSigninImg.svg';
-import useKakaoAuthorization from 'hooks/useKakaoAuthorization';
-import { login } from 'modules/auth';
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import useAuthorization from 'hooks/useAuthorization';
 import styled from 'styled-components';
 
 const SigninWrapper = styled.div`
@@ -48,45 +44,8 @@ const DescriptionText = styled.p`
 	margin-bottom: 100px;
 `;
 
-interface IOauth {
-	code: string;
-	token: string;
-	vendor: string;
-}
-
 const Signin = () => {
-	const history = useHistory();
-	const dispatch = useDispatch();
-	const [oauth, setOauth] = useState<IOauth>({
-		code: '',
-		token: '',
-		vendor: '',
-	});
-	const { openKaKaoAuthorization, kakaoToken } = useKakaoAuthorization();
-
-	useEffect(() => {
-		if (kakaoToken) {
-			setOauth({
-				code: '',
-				token: kakaoToken,
-				vendor: 'KAKAO',
-			});
-		}
-	}, [kakaoToken]);
-
-	useEffect(() => {
-		if (oauth.token && oauth.vendor) {
-			(async () => {
-				try {
-					const resp = await signinAPI(oauth);
-					dispatch(login(resp));
-					history.push('/');
-				} catch (err) {
-					history.push('/sign-up', { ...oauth });
-				}
-			})();
-		}
-	}, [oauth]);
+	const { openAuthorization } = useAuthorization();
 
 	return (
 		<SigninWrapper>
@@ -94,8 +53,8 @@ const Signin = () => {
 			<BannerText>우리 다같이 다이어리</BannerText>
 			<DescriptionText>소중한 사람들과 사랑스러운 추억을 만들어보세요.</DescriptionText>
 			<SigninContainer>
-				<img src={KakaoSigninImg} alt="kakao-login-img" onClick={openKaKaoAuthorization} />
-				<img src={NaverSigninImg} alt="naver-login-img" onClick={() => {}} />
+				<img src={KakaoSigninImg} alt="kakao-login-img" onClick={() => openAuthorization('KAKAO')} />
+				<img src={NaverSigninImg} alt="naver-login-img" onClick={() => openAuthorization('NAVER')} />
 				<img src={AppleSigninImg} alt="apple-login-img" onClick={() => {}} />
 			</SigninContainer>
 		</SigninWrapper>
