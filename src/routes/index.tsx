@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react';
 
+import { validateTokenAPI } from 'api/http';
 import Footer from 'components/Footer';
-import { Route, Switch } from 'react-router-dom';
+import { login } from 'modules/auth';
+import { useDispatch } from 'react-redux';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import AuthRoute from 'routes/AuthRoute';
 import styled from 'styled-components';
 
@@ -24,6 +27,19 @@ const AppContent = styled.div`
 `;
 
 const App = () => {
+	const token = window.localStorage.getItem('token');
+	const dispatch = useDispatch();
+	const history = useHistory();
+
+	useEffect(() => {
+		(async () => {
+			if (token) {
+				const resp = await validateTokenAPI(token);
+				dispatch(login(resp));
+				history.push('/');
+			}
+		})();
+	}, []);
 	return (
 		<AppWrapper>
 			<AppContent>

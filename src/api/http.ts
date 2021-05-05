@@ -6,7 +6,8 @@ const SERVER_URL = 'http://ysjleader.com:8080';
 
 export async function validateTokenAPI(token) {
 	axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-	await axios.post(`${SERVER_URL}/users/sign-in`, {});
+	const resp = await axios.post(`${SERVER_URL}/users/sign-in`, {});
+	return resp.data;
 }
 
 export async function signinAPI(oauth) {
