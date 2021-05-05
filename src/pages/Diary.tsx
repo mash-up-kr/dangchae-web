@@ -1,7 +1,9 @@
-import React from 'react';
+/* eslint-disable react/display-name */
+import React, { useState, useEffect } from 'react';
 
 import CalendarIcon from 'assets/icons/CalendarIcon.svg';
 import UserProfileImg from 'assets/images/UserProfileImg.svg';
+import axios from 'axios';
 import Header from 'components/Header';
 import styled from 'styled-components';
 
