@@ -17,13 +17,14 @@ export async function signinAPI(oauth) {
 	return resp.data;
 }
 
-export async function signupAPI(file, nickname, oauth) {
+export async function signupAPI(reqeust) {
+	const { file, nickname, code, token, vendor } = reqeust;
 	const formData = new FormData();
 	formData.append('profile', file);
 	formData.append('nickname', nickname);
-	formData.append('vendor', oauth.vendor);
-	formData.append('code', oauth.code);
-	formData.append('token', oauth.token);
+	formData.append('vendor', vendor);
+	formData.append('code', code);
+	formData.append('token', token);
 	const resp = await axios.post(`${SERVER_URL}/users/sign-up`, formData);
 	if (resp.data.token) {
 		axios.defaults.headers.common['Authorization'] = `Bearer ${resp.data.token}`;

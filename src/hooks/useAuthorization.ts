@@ -28,18 +28,17 @@ const useAuthorization = () => {
 
 	const openAuthorization = useCallback(vendor => {
 		window.localStorage.setItem('vendor', vendor);
-		const oauthUrl = oauthInfo[vendor].oauthUrl;
-		const query = oauthInfo[vendor].codeRequestQuery;
-		window.open(`${oauthUrl}/authorize?${queryString.stringify(query)}`, '_self');
+		const { codeRequestUri, codeRequest } = oauthInfo[vendor];
+		window.open(`${codeRequestUri}?${queryString.stringify(codeRequest)}`, '_self');
 	}, []);
 
 	useEffect(() => {
 		if (code) {
 			const vendor = window.localStorage.getItem('vendor') || '';
-			const oauthUrl = oauthInfo[vendor].oauthUrl;
-			const query = { ...oauthInfo[vendor].tokenReqeustQuery, code };
+			const uri = oauthInfo[vendor].tokenRequestUri;
+			const query = { ...oauthInfo[vendor].tokenReqeust, code };
 			(async () => {
-				const resp = await axios.post(`${oauthUrl}/token?${queryString.stringify(query)}`);
+				const resp = await axios.post(`${uri}?${queryString.stringify(query)}`);
 				setOauth({ ...oauth, token: resp.data.access_token, vendor });
 			})();
 		}

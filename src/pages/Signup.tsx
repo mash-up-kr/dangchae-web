@@ -76,11 +76,19 @@ const Signup = () => {
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const { state } = useLocation<ILocationState>();
+	const { token, code, vendor } = state;
 
 	const onSubmit = async () => {
-		const oauth = state;
+		const request = {
+			file: fileRef.current.files[0],
+			token,
+			code,
+			vendor,
+			nickname,
+		};
+		console.log(request);
 		try {
-			const resp = await signupAPI(fileRef.current.files[0], nickname, oauth);
+			const resp = await signupAPI(request);
 			dispatch(login(resp));
 			history.push('/');
 		} catch (err) {

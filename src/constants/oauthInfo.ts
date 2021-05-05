@@ -9,21 +9,23 @@ const NAVER_CLIENT_SECRET = process.env.REACT_APP_NAVER_CLIENT_SECRET;
 
 interface IOauthInfo {
 	[key: string]: {
-		oauthUrl: string;
-		codeRequestQuery: any;
-		tokenReqeustQuery: any;
+		codeRequestUri: string;
+		codeRequest: any;
+		tokenRequestUri: string;
+		tokenReqeust: any;
 	};
 }
 
 export const oauthInfo: IOauthInfo = {
 	KAKAO: {
-		oauthUrl: KAKAO_OAUTH_URI,
-		codeRequestQuery: {
+		codeRequestUri: `${KAKAO_OAUTH_URI}/authorize`,
+		codeRequest: {
 			client_id: KAKAO_REST_API_KEY,
 			redirect_uri: REDIRECT_URI,
 			response_type: 'code',
 		},
-		tokenReqeustQuery: {
+		tokenRequestUri: `${KAKAO_OAUTH_URI}/token`,
+		tokenReqeust: {
 			grant_type: 'authorization_code',
 			client_id: KAKAO_REST_API_KEY,
 			redirect_uri: REDIRECT_URI,
@@ -31,14 +33,15 @@ export const oauthInfo: IOauthInfo = {
 		},
 	},
 	NAVER: {
-		oauthUrl: NAVER_OAUTH_URI,
-		codeRequestQuery: {
+		codeRequestUri: `${NAVER_OAUTH_URI}/authorize`,
+		codeRequest: {
 			client_id: NAVER_CLIENT_ID,
 			redirect_uri: REDIRECT_URI,
 			response_type: 'code',
 			state: '',
 		},
-		tokenReqeustQuery: {
+		tokenRequestUri: `${NAVER_OAUTH_URI}/token`,
+		tokenReqeust: {
 			grant_type: 'authorization_code',
 			client_id: NAVER_CLIENT_ID,
 			client_secret: NAVER_CLIENT_SECRET,
