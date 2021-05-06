@@ -1,6 +1,18 @@
 {
+    
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": true
     },
+<<<<<<< HEAD
     "typescript.tsdk": "node_modules/typescript/lib"
 }
+=======
+    "editor.formatOnSave": false,
+    "eslint.validate":  [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+    ],
+}
+>>>>>>> a5b3c50efcd7dd8525947981c5d6678f250eba7a
