@@ -93,8 +93,8 @@ const Diarys = () => {
 						diaryId={item.diaryId}
 						title={item.title}
 						createdDate={item.createdDate}
-						paperTitle={'일기 제목'}
-						paperCreatedDate={'022021-04-21'}
+						paperTitle={item.title}
+						paperCreatedDate={item.date}
 					/>
 				))}
 			</DiarysContent>

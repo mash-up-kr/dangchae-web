@@ -1,98 +1,177 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-// import UploadImgIcon from 'assets/images/UploadImgIcon.svg';
+import { getPaperAPI } from 'api/http';
 import Header from 'components/Header';
+import { useQuery } from 'react-query';
+import { useParams } from 'react-router';
 import styled from 'styled-components';
 
-const DiarysHeader = styled.div`
-	display: flex;
-	width: 100%;
-	border-top: solid black 1px;
-	border-bottom: solid black 1px;
-`;
-
-const UserImage = styled.div`
-	border-radius: 50%;
-	width: 64px;
-	height: 64px;
-	margin: 8px;
-	background-color: #edebda;
-`;
-
-const UserInfomation = styled.div`
-	display: flex;
-	flex-direction: column;
-	border-left: solid black 1px;
-	width: 100%;
-`;
-
-const UserName = styled.div`
-	font-weight: 700;
-	size: 18px;
-	padding: 8px;
-	width: 100%;
-	align-items: center;
-	border-bottom: solid black 1px;
-`;
-
-const UserDiariesInfomation = styled.div`
-	display: flex;
-	height: 100%;
-`;
-
-const UserDiariesInfoBox = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	border-right: solid black 1px;
-	height: 100%;
-	padding: 8px 12px;
-	font-size: 14px;
-`;
-
-const NewDiaryButton = styled.div`
-	margin: 0 0 0 auto;
-	justify-self: flex-end;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	color: #ffffff;
-	background: #000000;
-	height: 100%;
-	padding: 8px 12px;
-	font-size: 14px;
-`;
-
-const PaperWrapper = styled.div`
-	border-top: solid 1px #000000;
-	background-color: #d0ccff;
-`;
-
-// const DateWrapper = styled.div`
-// 	width: 90px;
-// 	display: flex;
-// 	flex: 1;
-// 	align-items: center;
-// `;
+import AlignIcon from '../assets/icons/Align.svg';
+import BackgroundIcon from '../assets/icons/Background.svg';
+import CameraIcon from '../assets/icons/Camera.svg';
+import PencilIcon from '../assets/icons/Pencil.svg';
 
 const NewPaper = () => {
+	const { diaryId, paperId } = useParams<{ diaryId: string; paperId: string }>();
+	const { data } = useQuery('page', () => getPaperAPI(diaryId, paperId).then(res => res.data));
+
+	const [title, setTitle] = useState('');
+	const [content, setContent] = useState('');
+
+	useEffect(() => {
+		if (!data) return;
+
+		setTitle(data.title);
+		setContent(data.body);
+	}, [data]);
+
 	return (
 		<>
 			<Header />
-			<DiarysHeader>
-				<UserImage></UserImage>
-				<UserInfomation>
-					<UserName>User name</UserName>
-					<UserDiariesInfomation>
-						<UserDiariesInfoBox>4 Diaries</UserDiariesInfoBox>
-						<UserDiariesInfoBox>From 2021.03.21</UserDiariesInfoBox>
-						<NewDiaryButton>다이어리 생성</NewDiaryButton>
-					</UserDiariesInfomation>
-				</UserInfomation>
-			</DiarysHeader>
-			<PaperWrapper></PaperWrapper>
+			{data && (
+				<>
+					<DiaryInfoSection>
+						<Title>{data.diaryId}</Title>
+						<Date>2020.02.21 (SUN)</Date>
+					</DiaryInfoSection>
+					<ToolBarSection>
+						<ButtonGroup>
+							<SquareButton>
+								<img src={CameraIcon} />
+							</SquareButton>
+							<SquareButton>
+								<img src={BackgroundIcon} />
+							</SquareButton>
+							<SquareButton>
+								<img src={AlignIcon} />
+							</SquareButton>
+						</ButtonGroup>
+						<ButtonGroup>
+							<RectangleButton>임시저장</RectangleButton>
+							<RectangleBlackButton>
+								<img src={PencilIcon} style={{ margin: 4 }} /> 발행
+							</RectangleBlackButton>
+						</ButtonGroup>
+					</ToolBarSection>
+					<TitleInput
+						placeholder="제목을 입력해주세요"
+						value={title}
+						onChange={e => setTitle(e.target.value)}
+					/>
+					<ContentTextArea
+						placeholder="오늘 하루는 어땠나요?"
+						value={content}
+						onChange={e => setContent(e.target.value)}
+					/>
+				</>
+			)}
 		</>
 	);
 };
+
+const DiaryInfoSection = styled.div`
+	display: flex;
+	width: 100%;
+	align-items: center;
+	justify-content: space-between;
+	border-top: solid black 1px;
+	border-bottom: solid black 1px;
+	padding: 8px 11px;
+`;
+
+const ToolBarSection = styled.div`
+	display: flex;
+	width: 100%;
+	align-items: center;
+	justify-content: space-between;
+	border-bottom: solid black 1px;
+`;
+
+const SquareButton = styled.button`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	background-color: transparent;
+	border-style: none;
+	border-right: solid black 1px;
+	cursor: pointer;
+`;
+
+const RectangleButton = styled.button`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 110px;
+	height: 40px;
+	font-size: 14px;
+	font-weight: bold;
+	background-color: transparent;
+	border-style: none;
+	border-right: solid black 1px;
+	cursor: pointer;
+`;
+
+const RectangleBlackButton = styled.button`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 110px;
+	height: 40px;
+	background-color: #444;
+	font-size: 14px;
+	color: #fff;
+	font-weight: bold;
+	border-style: none;
+	border-right: solid black 1px;
+	cursor: pointer;
+`;
+
+const ButtonGroup = styled.div`
+	display: flex;
+	${SquareButton}:nth-child(1) {
+		border-left: solid black 1px;
+	}
+	${RectangleButton}:nth-child(1) {
+		border-left: solid black 1px;
+	}
+`;
+
+const Title = styled.p`
+	font-weight: bold;
+	font-size: 18px;
+	line-height: 22px;
+`;
+
+const Date = styled.p`
+	font-size: 14px;
+`;
+
+const TitleInput = styled.input`
+	width: 100%;
+	background-color: transparent;
+	border-style: none;
+	border-bottom: solid black 1px;
+	margin-top: 16px;
+	padding: 24px 0px;
+	outline: none;
+	font-weight: bold;
+	font-size: 18px;
+	line-height: 21px;
+`;
+
+const ContentTextArea = styled.textarea`
+	width: 100%;
+	height: 100%;
+	margin: 4px 0px;
+	padding: 16px 0px;
+	outline: none;
+	background-color: transparent;
+	border-style: none;
+	font-size: 14px;
+	line-height: 18px;
+	resize: none;
+`;
 
 export default NewPaper;

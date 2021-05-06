@@ -7,11 +7,6 @@ import styled from '@emotion/styled';
 import * as dateFns from 'date-fns';
 import { Link } from 'react-router-dom';
 
-import cam from '../icons/function.svg';
-import group from '../icons/Group 84.svg';
-import group2 from '../icons/Group 86.svg';
-import pencil from '../icons/Vector.svg';
-
 const Label = styled.div`
 	/* left: 0%;
 right: 0.12%;
@@ -32,9 +27,15 @@ const Title1 = styled.div`
 	/* identical to box height */
 
 	letter-spacing: -0.02em;
+<<<<<<< HEAD
 
 	/* Gray1 */
 
+=======
+
+	/* Gray1 */
+
+>>>>>>> a5b3c50efcd7dd8525947981c5d6678f250eba7a
 	color: #232323;
 `;
 const Title2 = styled.div`
@@ -173,9 +174,13 @@ const Paper = () => {
 						border: '0px',
 						borderRight: 'solid 1px #000000',
 					}}
+<<<<<<< HEAD
 				>
 					<img src={cam}></img>
 				</button>
+=======
+				></button>
+>>>>>>> a5b3c50efcd7dd8525947981c5d6678f250eba7a
 				<button
 					name="vec58"
 					onClick={onAddpaper}
@@ -185,9 +190,13 @@ const Paper = () => {
 						border: '0px',
 						borderRight: 'solid 1px #000000',
 					}}
+<<<<<<< HEAD
 				>
 					<img src={group2}></img>
 				</button>
+=======
+				></button>
+>>>>>>> a5b3c50efcd7dd8525947981c5d6678f250eba7a
 				<button
 					name="vec57"
 					style={{
@@ -196,9 +205,13 @@ const Paper = () => {
 						border: '0px',
 						borderRight: 'solid 1px #000000',
 					}}
+<<<<<<< HEAD
 				>
 					<img src={group}></img>
 				</button>
+=======
+				></button>
+>>>>>>> a5b3c50efcd7dd8525947981c5d6678f250eba7a
 				<Posting>
 					<input
 						type="button"
@@ -219,7 +232,11 @@ const Paper = () => {
 						onClick={onSubmit}
 						style={{ height: '50px', width: '100px', background: '#444444', font: '#FFFFFF' }}
 					>
+<<<<<<< HEAD
 						<img src={pencil}></img>발행{' '}
+=======
+						발행{' '}
+>>>>>>> a5b3c50efcd7dd8525947981c5d6678f250eba7a
 					</button>{' '}
 				</Posting>
 			</Imageline>

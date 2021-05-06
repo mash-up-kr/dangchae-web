@@ -30,7 +30,25 @@ export async function signupAPI(file, nickname, oauth) {
 	await asyncLocalStorage.setItem('token', token);
 	axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 }
+<<<<<<< HEAD
 export async function fetchDiaryList() {
 	const res = await axios.post(`${SERVER_URL}/diaries`);
 	return res.data;
 }
+=======
+
+export async function getPaperAPI(articleId: string, diaryId: string) {
+	return await axios.get<getPaperResponse>(`${SERVER_URL}/articles/${articleId}?diaryId=${diaryId}`);
+}
+
+export type getPaperResponse = {
+	articleId: number;
+	body: string;
+	date: Date;
+	diaryId: number;
+	img: string;
+	thumbImg: string;
+	title: string;
+	writerId: number;
+};
+>>>>>>> a5b3c50efcd7dd8525947981c5d6678f250eba7a
