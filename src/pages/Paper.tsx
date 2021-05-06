@@ -1,6 +1,8 @@
 import React from 'react';
 
+import { getPaperAPI } from 'api/http';
 import Header from 'components/Header';
+import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -9,6 +11,7 @@ import PencilIcon from '../assets/icons/Pencil.svg';
 
 const Paper = () => {
 	const { diaryId, paperId } = useParams<{ diaryId: string; paperId: string }>();
+	const { data } = useQuery(`paper/${paperId}`, () => getPaperAPI(paperId, diaryId).then(res => res.data));
 
 	return (
 		<>
@@ -30,74 +33,74 @@ const Paper = () => {
 			<CloseButton>
 				<img src={CloseIcon} />
 			</CloseButton>
-			<DiaryContainer>
-				<DayContainer>
-					<Day>21</Day>
-					<YearAndMonth>2021.02</YearAndMonth>
-				</DayContainer>
-				<div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-					<ContentContainer>
-						<ArticleTitle>토요일 해커톤 준비중!!</ArticleTitle>
-						<Author>
-							<AuthorImage src="http://www.foodnmed.com/news/photo/201903/18296_3834_4319.jpg" />
-							배띠용 | 5시간 전
-						</Author>
-						<ArticleContent>
-							내일 바로 매쉬업 해커톤 하는 날. 그래서 우리 디자인팀은 내일을 위해 미리 디자인을 하고 있지.
-							Baaam. 내일 우리 팀은 와인을 가져가서 CHEEZE를 곁들여 우아한 Hackathon을 할 예정이야. 다들
-							부럽지? 즐기면서 하라구. 인생 뭐 별 거 있어? 매 순간을 즐기면서 살면 되는 것이야.
-						</ArticleContent>
-					</ContentContainer>
-				</div>
-			</DiaryContainer>
-			<CommentContainer>
-				<CommentCount>
-					<strong>3</strong> Comments
-				</CommentCount>
-				<div style={{ padding: '4px 16px', width: '100%' }}>
-					<CommentItem>
-						<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-							<Author>
-								<AuthorImage src="http://www.foodnmed.com/news/photo/201903/18296_3834_4319.jpg" />
-								배띠용 | 5시간 전
-							</Author>
+			{data && (
+				<>
+					<DiaryContainer>
+						<DayContainer>
+							<Day>21</Day>
+							<YearAndMonth>2021.02</YearAndMonth>
+						</DayContainer>
+						<div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+							<ContentContainer>
+								<ArticleTitle>{data.title}</ArticleTitle>
+								<Author>
+									<AuthorImage src="http://www.foodnmed.com/news/photo/201903/18296_3834_4319.jpg" />
+									{`${data.writerId} | 5시간 전`}
+								</Author>
+								<ArticleContent>{data.body}</ArticleContent>
+							</ContentContainer>
 						</div>
-						<div style={{ paddingLeft: '42px' }}>
-							오져따리 오져따 오져따리 오져따오져따리 오져따오져따리 오져따오져따리 오져따오져따리
-							오져따오져따리 오져따오져따리 오져따오져따리 오져따
+					</DiaryContainer>
+					<CommentContainer>
+						<CommentCount>
+							<strong>3</strong> Comments
+						</CommentCount>
+						<div style={{ padding: '4px 16px', width: '100%' }}>
+							<CommentItem>
+								<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+									<Author>
+										<AuthorImage src="http://www.foodnmed.com/news/photo/201903/18296_3834_4319.jpg" />
+										배띠용 | 5시간 전
+									</Author>
+								</div>
+								<div style={{ paddingLeft: '42px' }}>
+									오져따리 오져따 오져따리 오져따오져따리 오져따오져따리 오져따오져따리 오져따오져따리
+									오져따오져따리 오져따오져따리 오져따오져따리 오져따
+								</div>
+							</CommentItem>
+							<div
+								style={{
+									padding: '16px 0px',
+									display: 'flex',
+									borderStyle: 'none',
+									borderTop: 'solid black 1px',
+									borderBottom: 'solid black 1px',
+									height: '100%',
+								}}
+							>
+								<CommentTextArea></CommentTextArea>
+								<button
+									style={{
+										width: '100px',
+										height: '100px',
+										padding: '16px',
+										display: 'flex',
+										alignItems: 'center',
+										justifyContent: 'center',
+										backgroundColor: '#444',
+										color: 'white',
+										fontSize: 16,
+										fontWeight: 16,
+										borderStyle: 'none',
+									}}
+								>
+									등록
+								</button>
+							</div>
 						</div>
-					</CommentItem>
-					<div
-						style={{
-							padding: '16px 0px',
-							display: 'flex',
-							borderStyle: 'none',
-							borderTop: 'solid black 1px',
-							borderBottom: 'solid black 1px',
-							height: '100%',
-						}}
-					>
-						<CommentTextArea></CommentTextArea>
-						<button
-							style={{
-								width: '100px',
-								height: '100px',
-								padding: '16px',
-								display: 'flex',
-								alignItems: 'center',
-								justifyContent: 'center',
-								backgroundColor: '#444',
-								color: 'white',
-								fontSize: 16,
-								fontWeight: 16,
-								borderStyle: 'none',
-							}}
-						>
-							등록
-						</button>
-					</div>
-				</div>
-			</CommentContainer>
+					</CommentContainer>
+				</>
+			)}
 		</>
 	);
 };

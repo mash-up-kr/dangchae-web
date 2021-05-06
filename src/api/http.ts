@@ -35,6 +35,14 @@ export async function getPaperAPI(articleId: string, diaryId: string) {
 	return await axios.get<getPaperResponse>(`${SERVER_URL}/articles/${articleId}?diaryId=${diaryId}`);
 }
 
+export async function postPaperAPI(articleId: string, diaryId: string) {
+	return await axios.get<getPaperResponse>(`${SERVER_URL}/articles/${articleId}?diaryId=${diaryId}`);
+}
+
+export async function putPaperAPI(articleId: string, diaryId: string) {
+	return await axios.get<getPaperResponse>(`${SERVER_URL}/articles/${articleId}?diaryId=${diaryId}`);
+}
+
 export type getPaperResponse = {
 	articleId: number;
 	body: string;
