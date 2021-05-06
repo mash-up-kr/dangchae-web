@@ -1,241 +1,263 @@
-/** @jsxRuntime classic */
-/** @jsx jsx */
-import React, { useState } from 'react';
+import React from 'react';
 
-import { jsx } from '@emotion/react';
-import styled from '@emotion/styled';
-import * as dateFns from 'date-fns';
-import { Link } from 'react-router-dom';
+import Header from 'components/Header';
+import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
 
-const Label = styled.div`
-	/* left: 0%;
-right: 0.12%;
-top: 38.35%;
-bottom: 30.83%; */
+import CloseIcon from '../assets/icons/Close.svg';
+import PencilIcon from '../assets/icons/Pencil.svg';
 
-	background: #f8f6ed;
-	box-shadow: inset 0px -1px 0px #000000;
-	text-align: right;
-`;
-
-const Title1 = styled.div`
-	font-family: Spoqa Han Sans Neo;
-	font-style: normal;
-	font-weight: bold;
-	font-size: 18px;
-	line-height: 22px;
-	/* identical to box height */
-
-	letter-spacing: -0.02em;
-
-	/* Gray1 */
-
-	color: #232323;
-`;
-const Title2 = styled.div`
-	text-align: right;
-	font-family: SF Pro Display;
-	font-style: normal;
-	font-weight: normal;
-	font-size: 14px;
-	line-height: 17px;
-	/* identical to box height */
-
-	color: #000000;
-`;
-const Title = styled.div`
-	line-height: 50px;
-	background: #f8f6ed;
-	box-shadow: inset 0px -1px 0px #000000;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	height: 50px;
-`;
-const Imageline = styled.div`
-	line-height: 50px;
-	background: #f8f7ed;
-	box-shadow: inset 0px -1px 0px #000000;
-`;
-const Posting = styled.div`
-	float: right;
-`;
-const Titlenaming = styled.div`
-	font-family: SF Pro Display;
-	font-style: normal;
-	font-weight: bold;
-	font-size: 50px;
-	line-height: 90px;
-
-	box-shadow: inset 0px -1px 0px #000000;
-`;
 const Paper = () => {
-	const [form, setForm] = useState({
-		title: '',
-		date: '',
-		content: '',
-	});
-	const onTemporal = e => {
-		setForm({
-			...form,
-		});
-	};
-	const onSubmit = e => {
-		setForm({
-			...form,
-		});
-	};
-	const onList = e => {
-		setForm({
-			...form,
-		});
-	};
-	const onLogout = e => {
-		setForm({
-			...form,
-		});
-	};
-	const onChangeTitle = e => {
-		setForm({
-			...form,
-			title: e.target.value,
-		});
-	};
-	const onChangeDate = e => {
-		setForm({
-			...form,
-			date: e.target.value,
-		});
-	};
-	const onChangeContent = e => {
-		setForm({
-			...form,
-			content: e.target.value,
-		});
-	};
-	const onPicture = e => {
-		setForm({
-			...form,
-		});
-	};
-	const onAddpaper = e => {
-		setForm({
-			...form,
-		});
-	};
+	const { diaryId, paperId } = useParams<{ diaryId: string; paperId: string }>();
 
-	const initForm = () => {
-		setForm({
-			title: '',
-			date: '',
-			content: '',
-		});
-	};
 	return (
-		<div style={{ width: '100%' }}>
-			<Label>
-				{/* <Link to="/diarys"  style={{height: '40px',background: 'transparent',border: 'none'}}>다이어리 목록으로  </Link> */}
-				<input
-					type="button"
-					name="logout"
-					value="다이어리 목록으로"
-					onClick={onLogout}
-					style={{ height: '40px', background: 'transparent', border: 'none' }}
-				></input>
-
-				<input
-					type="button"
-					name="logout"
-					value="로그아웃"
-					onClick={onLogout}
-					style={{ height: '40px', background: 'transparent', border: 'none' }}
-				></input>
-			</Label>
-			<Title>
-				<Title1>
-					<label text-align="left">당근과 채찍</label>{' '}
-				</Title1>
-				<Title2>{dateFns.format(new Date(), 'yyyy.MM.dd(E)')} </Title2>
-			</Title>
-
-			<Imageline>
-				<button
-					name="pic"
-					onClick={onPicture}
-					style={{
-						height: '50px',
-						background: 'transparent',
-						border: '0px',
-						borderRight: 'solid 1px #000000',
-					}}
-				></button>
-				<button
-					name="vec58"
-					onClick={onAddpaper}
-					style={{
-						height: '50px',
-						background: 'transparent',
-						border: '0px',
-						borderRight: 'solid 1px #000000',
-					}}
-				></button>
-				<button
-					name="vec57"
-					style={{
-						height: '50px',
-						background: 'transparent',
-						border: '0px',
-						borderRight: 'solid 1px #000000',
-					}}
-				></button>
-				<Posting>
-					<input
-						type="button"
-						name="store"
-						value="임시저장"
-						onClick={onTemporal}
+		<>
+			<Header />
+			<DiarysHeader>
+				<UserImage></UserImage>
+				<UserInfomation>
+					<DiaryName>당근과 채찍</DiaryName>
+					<UserDiariesInfomation>
+						<UserDiariesInfoBox>With 3 members</UserDiariesInfoBox>
+						<UserDiariesInfoBox>Since 2021.03.21</UserDiariesInfoBox>
+						<WriteDiaryButton>
+							<img src={PencilIcon} style={{ margin: '0px 4px' }} />
+							글쓰기
+						</WriteDiaryButton>
+					</UserDiariesInfomation>
+				</UserInfomation>
+			</DiarysHeader>
+			<CloseButton>
+				<img src={CloseIcon} />
+			</CloseButton>
+			<DiaryContainer>
+				<DayContainer>
+					<Day>21</Day>
+					<YearAndMonth>2021.02</YearAndMonth>
+				</DayContainer>
+				<div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+					<ContentContainer>
+						<ArticleTitle>토요일 해커톤 준비중!!</ArticleTitle>
+						<Author>
+							<AuthorImage src="http://www.foodnmed.com/news/photo/201903/18296_3834_4319.jpg" />
+							배띠용 | 5시간 전
+						</Author>
+						<ArticleContent>
+							내일 바로 매쉬업 해커톤 하는 날. 그래서 우리 디자인팀은 내일을 위해 미리 디자인을 하고 있지.
+							Baaam. 내일 우리 팀은 와인을 가져가서 CHEEZE를 곁들여 우아한 Hackathon을 할 예정이야. 다들
+							부럽지? 즐기면서 하라구. 인생 뭐 별 거 있어? 매 순간을 즐기면서 살면 되는 것이야.
+						</ArticleContent>
+					</ContentContainer>
+				</div>
+			</DiaryContainer>
+			<CommentContainer>
+				<CommentCount>
+					<strong>3</strong> Comments
+				</CommentCount>
+				<div style={{ padding: '4px 16px', width: '100%' }}>
+					<CommentItem>
+						<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+							<Author>
+								<AuthorImage src="http://www.foodnmed.com/news/photo/201903/18296_3834_4319.jpg" />
+								배띠용 | 5시간 전
+							</Author>
+						</div>
+						<div style={{ paddingLeft: '42px' }}>
+							오져따리 오져따 오져따리 오져따오져따리 오져따오져따리 오져따오져따리 오져따오져따리
+							오져따오져따리 오져따오져따리 오져따오져따리 오져따
+						</div>
+					</CommentItem>
+					<div
 						style={{
-							height: '50px',
-							width: '100px',
-							background: 'transparent',
-							border: '0px',
-							borderLeft: 'solid 1px #000000',
+							padding: '16px 0px',
+							display: 'flex',
+							borderStyle: 'none',
+							borderTop: 'solid black 1px',
+							borderBottom: 'solid black 1px',
+							height: '100%',
 						}}
-					></input>
-					<button
-						name="post"
-						value="발행"
-						onClick={onSubmit}
-						style={{ height: '50px', width: '100px', background: '#444444', font: '#FFFFFF' }}
 					>
-						발행{' '}
-					</button>{' '}
-				</Posting>
-			</Imageline>
-			<Titlenaming>
-				<input
-					type="text"
-					placeholder="제목을 입력해주세요"
-					name="title"
-					value={form.title}
-					onChange={onChangeTitle}
-					style={{ background: 'transparent', border: 'none', fontSize: '18px' }}
-				></input>
-			</Titlenaming>
-			<textarea
-				name="content"
-				placeholder=" 오늘 하루는 어땠나요?"
-				value={form.content}
-				onChange={onChangeContent}
-				style={{ background: 'transparent', border: 'none', marginTop: '50px', fontSize: '14px' }}
-			></textarea>
-			{/* <input
-        type="text"
-        name="date"
-        value={form.date}
-        onChange={onChangeDate}
-      ></input> */}
-		</div>
+						<CommentTextArea></CommentTextArea>
+						<button
+							style={{
+								width: '100px',
+								height: '100px',
+								padding: '16px',
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'center',
+								backgroundColor: '#444',
+								color: 'white',
+								fontSize: 16,
+								fontWeight: 16,
+								borderStyle: 'none',
+							}}
+						>
+							등록
+						</button>
+					</div>
+				</div>
+			</CommentContainer>
+		</>
 	);
 };
+
+const CommentTextArea = styled.textarea`
+	width: 100%;
+	height: 100%fit-content;
+	resize: none;
+	border-style: none;
+	background-color: transparent;
+`;
+
+const CommentItem = styled.div`
+	margin: 24px 0px;
+`;
+
+const CommentCount = styled.div`
+	border-style: none;
+	border-top: solid 1px black;
+	border-bottom: solid 1px black;
+	width: 100%;
+	font-size: 14px;
+	line-height: 25px;
+	padding: 12px 8px;
+`;
+
+const ArticleTitle = styled.div`
+	color: #232323;
+	font-size: 18px;
+	line-height: 35px;
+	font-weight: bold;
+`;
+
+const Author = styled.div`
+	display: flex;
+	align-items: center;
+	color: #444;
+	font-size: 14px;
+	line-height: 20px;
+`;
+
+const AuthorImage = styled.img`
+	border-radius: 50%;
+	width: 42px;
+	height: 42px;
+	padding: 4px;
+	box-sizing: border-box;
+`;
+
+const ArticleContent = styled.div`
+	padding: 15px;
+`;
+const CommentContainer = styled.div`
+	width: 100%;
+`;
+
+const DiarysHeader = styled.div`
+	display: flex;
+	width: 100%;
+	border-top: solid black 1px;
+	border-bottom: solid black 1px;
+`;
+
+const UserImage = styled.div`
+	border-radius: 50%;
+	width: 64px;
+	height: 64px;
+	margin: 8px;
+	background-color: #edebda;
+`;
+
+const UserInfomation = styled.div`
+	display: flex;
+	flex-direction: column;
+	border-left: solid black 1px;
+	width: 100%;
+`;
+
+const DiaryName = styled.div`
+	font-weight: 700;
+	size: 18px;
+	padding: 8px;
+	width: 100%;
+	align-items: center;
+	border-bottom: solid black 1px;
+	border-right: solid black 1px;
+`;
+
+const UserDiariesInfomation = styled.div`
+	display: flex;
+	height: 100%;
+`;
+
+const UserDiariesInfoBox = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-right: solid black 1px;
+	height: 100%;
+	padding: 8px 12px;
+	font-size: 14px;
+`;
+
+const WriteDiaryButton = styled.button`
+	margin: 0 0 0 auto;
+	justify-self: flex-end;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	color: #ffffff;
+	background: #444;
+	height: 100%;
+	padding: 8px 12px;
+	font-size: 14px;
+	border-style: none;
+`;
+
+const CloseButton = styled.button`
+	display: flex;
+	width: 100%;
+	align-items: center;
+	justify-content: flex-end;
+	background-color: transparent;
+	border-style: none;
+	cursor: pointer;
+	padding: 16px 4px;
+	border-bottom: solid 1px black;
+`;
+
+const DiaryContainer = styled.div`
+	display: flex;
+	width: 100%;
+`;
+
+const DayContainer = styled.div`
+	padding-top: 27px;
+	padding-right: 22px;
+	padding-left: 22px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+`;
+
+const Day = styled.p`
+	font-size: 45px;
+	line-height: 35px;
+	font-weight: 600;
+`;
+const YearAndMonth = styled.p`
+	font-weight: 500;
+	font-size: 12px;
+	line-height: 15px;
+	color: #444;
+`;
+
+const ContentContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	margin: 22px 0px;
+`;
+
 export default Paper;
